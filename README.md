@@ -11,5 +11,5 @@ Al inicializar el programa, se lee el fichero de los sudokus (cada sudoku comple
 Escoge una línea al azar, se rellena la mitad del sudoku (deshabilitando estas casillas para no poder modificarse) y <br>
 deja que el usuario haga el resto. <br>
 
-Si el programa detecta que en una fila, columna o sector has introducido un programa que no debías te notifica. <br>
+Si el programa detecta que en una fila, columna o sector has introducido un número que no debías te notifica. <br>
 Si lo has completado correctamente, también recibes una notificación.
