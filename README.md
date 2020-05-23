@@ -1,4 +1,4 @@
-# Sudoku
+# Sudoku en Java
 Programa en Java con interfaz gráfica que permite al usuario resolver sudokus <br>
 
 La carpeta Rel8-2 es donde está contenido el sudoku. Hay dos ficheros java: <br>
