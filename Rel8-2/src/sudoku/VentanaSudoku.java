@@ -179,7 +179,7 @@ public class VentanaSudoku extends JFrame {
 					sudoku.setSudValue(pos.x, pos.y, valor); //Introduzco en el array que crea el usuario los valores
 				}
 				
-				//Ahora mismo solo comprueba si el sudoku esta bien en las filas y las columnas
+				
 				if(!sudoku.isSudokuOk(pos.x, pos.y)) {
 					JOptionPane.showMessageDialog(getContentPane(), "Este numero no cumple con las reglas del sudoku", "Error!", JOptionPane.WARNING_MESSAGE);
 				}
