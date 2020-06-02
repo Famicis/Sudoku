@@ -109,9 +109,9 @@ public class VentanaSudoku extends JFrame {
 				cad+= "Sudoku. \n";
 				cad+= "- Nuevo: crea un sudoku al azar. \n";
 				cad+= "- Debes rellenar los espacios en blanco. \n";
-				cad+= "- Si lo haces mal el programa te alertar·. \n";
+				cad+= "- Si lo haces mal el programa te alertar√°. \n";
 				cad+= "- Cerrar: cierra el programa. \n";
-				cad+= "- AVISO: Si lo cierras no guardar·s tu progreso. \n";
+				cad+= "- AVISO: Si lo cierras no guardar√°s tu progreso. \n";
 				JOptionPane.showMessageDialog(getContentPane(), cad, "Mensaje", JOptionPane.WARNING_MESSAGE);
 			}
 		});
@@ -121,7 +121,7 @@ public class VentanaSudoku extends JFrame {
 		mntmAcercaDe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String cad = "";
-				cad+= "VersiÛn: 1.1 \n";
+				cad+= "Versi√≥n: 1.1 \n";
 				cad+= "Sudoku \n";
 				cad+= "Autor: Francesco De Amicis Caballero";
 				JOptionPane.showMessageDialog(getContentPane(), cad, "Mensaje", JOptionPane.WARNING_MESSAGE);
@@ -139,7 +139,7 @@ public class VentanaSudoku extends JFrame {
 	
 	/***
 	 * Metodo que crea los JTextField y los introduce en el array.
-	 * Ajusta el color de la fuente, centra las letras y les aÒade un KeyListener
+	 * Ajusta el color de la fuente, centra las letras y les a√±ade un KeyListener
 	 * @param textFieldArray 
 	 * @return un array de JTextField
 	 */
@@ -170,7 +170,7 @@ public class VentanaSudoku extends JFrame {
 				JTextField txtFModified = (JTextField)(e.getComponent());
 				
 				String celda = txtFModified.getName();
-				//TODO si el usuario borra un numero incorrecto, pero sin introducir uno nuevo, salta el mensaje de error al no cambiar internamente el valor del array
+				
 
 				Point pos = new Point(toInt(celda.charAt(3)), toInt(celda.charAt(4)));
 				int valor = toInt(e.getKeyChar());
@@ -200,7 +200,6 @@ public class VentanaSudoku extends JFrame {
 	 * Este metodo rellena la mitad de los JTextField
 	 * Comprueba dentro de nuestro sudoku que casillas son las que estan ocupadas
 	 * Si estan ocupadas, introduce el numero y las deshabilita
-	 * Al mismo tiempo, identifico todos los JTextField con un hashcode
 	 */
 	private void fillTextField() {
 		
@@ -217,7 +216,7 @@ public class VentanaSudoku extends JFrame {
 	}
 	
 	/***
-	 * Este metodo comprueba si el tablero est· vacÌo
+	 * Este metodo comprueba si el tablero est√° vac√≠o
 	 * Para ello, comprueba si las casillas estan habilitadas
 	 * Si hay alguna casilla deshabilitada quiere decir que no esta vacio
 	 * @return falso si hay alguna casilla deshabilitada, verdadero si hay alguna habilitada
