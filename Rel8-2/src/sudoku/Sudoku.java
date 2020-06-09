@@ -115,34 +115,32 @@ public class Sudoku {
 		}
 		
 	}
-	
-	
-	
+		
 	/**
-	 * TODO este codigo se puede mejorar muchisimo
+	 * 
 	 * Este metodo rellena marca (en teoria) 40 posiciones del tablero, que son las posiciones donde se va a rellenar automaticamente el sudoku
 	 * A veces aplica 40, a veces mas, a veces menos...
 	 * Es un desproposito
+	 * 
+	 * NUEVO METODO: sin ser perfecto, funciona mucho mejor y no hace falta utilizar break
+	 * 
 	 */
 	private void setHalfTrue() {
-		int contAux = 0; //cuando este contador llegue a 0 no hara falta hacer mas
+		int contAux = 0; //cuando este contador llegue a 40 no hara falta hacer mas
+
 		while (contAux < 40 ) {	
-			for (int i = 0; i<casillasOcupadas.length; i++) {
-				for (int j = 0; j< casillasOcupadas[i].length; j++) {
+			for (int i = 0; i<casillasOcupadas.length && contAux < 40; i++) {
+				for (int j = 0; j< casillasOcupadas[i].length && contAux < 40; j++) {
 					int aux = (int)(Math.random()*2);
 					if (aux == 1) {
 						casillasOcupadas[i][j] = true;
 						contAux++;
-						System.out.println();
-						if (contAux == 40) {
-							break;
-						}
 					}
-					
+
 				}
-				
+
 			}
-			
+
 		}
 	}
 	
