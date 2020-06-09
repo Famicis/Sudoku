@@ -23,7 +23,7 @@ public class Sudoku {
 		Scanner input = null;
 		String fileLine ="";
 		try {
-			file = new File ("./../sudokus/sudokusResueltos.txt");
+			file = new File ("./../../sudokus/sudokusResueltos.txt");
 			input = new Scanner(file);
 			int nLines = countLines(file);	
 			fileLine = pickLine(input, fileLine, nLines);	
@@ -123,20 +123,20 @@ public class Sudoku {
 	 * Este metodo rellena marca (en teoria) 40 posiciones del tablero, que son las posiciones donde se va a rellenar automaticamente el sudoku
 	 * A veces aplica 40, a veces mas, a veces menos...
 	 * Es un desproposito
-	 * 
-	 * NUEVO METODO: sin ser perfecto, funciona mucho mejor y no hace falta utilizar break
-	 * 
 	 */
 	private void setHalfTrue() {
-		int contAux = 0; //cuando este contador llegue a 40 no hara falta hacer mas
-		
+		int contAux = 0; //cuando este contador llegue a 0 no hara falta hacer mas
 		while (contAux < 40 ) {	
-			for (int i = 0; i<casillasOcupadas.length && contAux < 40; i++) {
-				for (int j = 0; j< casillasOcupadas[i].length && contAux < 40; j++) {
+			for (int i = 0; i<casillasOcupadas.length; i++) {
+				for (int j = 0; j< casillasOcupadas[i].length; j++) {
 					int aux = (int)(Math.random()*2);
 					if (aux == 1) {
 						casillasOcupadas[i][j] = true;
 						contAux++;
+						System.out.println();
+						if (contAux == 40) {
+							break;
+						}
 					}
 					
 				}
@@ -163,7 +163,7 @@ public class Sudoku {
 	 * @return 
 	 */
 	public boolean isSudokuOk(int row, int column) {
-		if (isRowOk(row) && isColumnOk(column) && areSectorsOk()) {
+		if (isRowOk(row) && isColumnOk(column) && isSectorOk(row, column)) {
 			return true;
 		}
 		return false;
@@ -200,13 +200,35 @@ public class Sudoku {
 		return true;
 	}
 	
-	private boolean areSectorsOk() {
-		if (isSectorOneOk() && isSectorTwoOk() && isSectorThreeOk() &&
-				isSectorFourOk() && isSectorFiveOk() && isSectorSixOk() &&
-				isSectorSevenOk() && isSectorEightOk() && isSectorNineOk() ) {
-			return true;
-		}
-		return false;
+	/**
+	 * Metodo que comprueba dentro del cuadrado de 3x3 si el numero introducido es correcto
+	 * @param row fila a comprobar
+	 * @param column columna a comprobar
+	 * @return verdadero si no se repite el numero, falso si se repite
+	 */
+	private boolean isSectorOk(int row, int column) {
+	    int sectorRow = (int)(row / 3) * 3; // first row of sector
+	    int sectorColumn = (int)(row / 3) * 3; // first column of sector
+	    int cont = 0;
+	    int[] temporaryArray = createTempArray(sectorRow, sectorColumn, cont);
+	    for (int i = 0; i<temporaryArray.length; i++) {        
+	    	for (int j = i+1; j<temporaryArray.length; j++) {
+	    		if (temporaryArray[i] == temporaryArray[j] && (temporaryArray[i] != 0 || temporaryArray[j] != 0)) {
+	    			return false;
+	    		}
+	    	}
+	    }
+	    return true;
+	}
+
+	private int[] createTempArray(int sectorRow, int sectorColumn, int cont) {
+		int[] temporaryArray = new int[9];
+	    for (int i = sectorRow; i < (sectorRow+3); i++) {
+	    	for(int j = sectorColumn; j < (sectorColumn+3); j++) {
+	        	temporaryArray[cont++] = sudokuUsuario[i][j];
+	    	}
+	    }
+		return temporaryArray;
 	}
 	
 	/***
@@ -224,213 +246,6 @@ public class Sudoku {
 		return true;
 	}
 	
-	//Estos metodos no son eficientes, hay que mejorarlo, se puede hacer unicamente con dos metodos simplemente sabiendo en que sector se encuentra
-	//TODO todo este codigo se puede refactorizar
-	private boolean isSectorOneOk() {
-		int[] temporaryArray = createTempArrayOne();	
-		for (int i = 0; i<temporaryArray.length; i++) {			
-			for (int j = i+1; j<temporaryArray.length; j++) {
-				if (temporaryArray[i] == temporaryArray[j] && (temporaryArray[i] != 0 || temporaryArray[j] != 0)) {
-					return false;
-				}
-			}
-		}
-		return true;
-	}
 
-	private int[] createTempArrayOne() {
-		int[] temporaryArray = new int [9];
-		int cont = 0;
-		for (int i = 0; i<3; i++) {
-			for (int j = 0; j<3; j++) {
-				temporaryArray[cont++] = sudokuUsuario[i][j];
-			}
-		}
-		return temporaryArray;
-	}
-	
-	private boolean isSectorTwoOk() {
-		int[] temporaryArray = createTempArrayTwo();	
-		for (int i = 0; i<temporaryArray.length; i++) {			
-			for (int j = i+1; j<temporaryArray.length; j++) {
-				if (temporaryArray[i] == temporaryArray[j] && (temporaryArray[i] != 0 || temporaryArray[j] != 0)) {
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-	
-	private int[] createTempArrayTwo() {
-		int[] temporaryArray = new int [9];
-		int cont = 0;
-		for (int i = 3; i<6; i++) {
-			for (int j = 0; j<3; j++) {
-				temporaryArray[cont++] = sudokuUsuario[i][j];
-			}
-		}
-		return temporaryArray;
-	}
-	
-	private boolean isSectorThreeOk() {
-		int[] temporaryArray = createTempArrayThree();	
-		for (int i = 0; i<temporaryArray.length; i++) {			
-			for (int j = i+1; j<temporaryArray.length; j++) {
-				if (temporaryArray[i] == temporaryArray[j] && (temporaryArray[i] != 0 || temporaryArray[j] != 0)) {
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-	
-	private int[] createTempArrayThree() {
-		int[] temporaryArray = new int [9];
-		int cont = 0;
-		for (int i = 6; i<9; i++) {
-			for (int j = 0; j<3; j++) {
-				temporaryArray[cont++] = sudokuUsuario[i][j];
-			}
-		}
-		return temporaryArray;
-	}
-	
-	private boolean isSectorFourOk() {
-		int[] temporaryArray = createTempArrayFour();	
-		for (int i = 0; i<temporaryArray.length; i++) {			
-			for (int j = i+1; j<temporaryArray.length; j++) {
-				if (temporaryArray[i] == temporaryArray[j] && (temporaryArray[i] != 0 || temporaryArray[j] != 0)) {
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-	
-	private int[] createTempArrayFour() {
-		int[] temporaryArray = new int [9];
-		int cont = 0;
-		for (int i = 0; i<3; i++) {
-			for (int j = 3; j<6; j++) {
-				temporaryArray[cont++] = sudokuUsuario[i][j];
-			}
-		}
-		return temporaryArray;
-	}
-	
-	private boolean isSectorFiveOk() {
-		int[] temporaryArray = createTempArrayFive();	
-		for (int i = 0; i<temporaryArray.length; i++) {			
-			for (int j = i+1; j<temporaryArray.length; j++) {
-				if (temporaryArray[i] == temporaryArray[j] && (temporaryArray[i] != 0 || temporaryArray[j] != 0)) {
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-	
-	private int[] createTempArrayFive() {
-		int[] temporaryArray = new int [9];
-		int cont = 0;
-		for (int i = 3; i<6; i++) {
-			for (int j = 3; j<6; j++) {
-				temporaryArray[cont++] = sudokuUsuario[i][j];
-			}
-		}
-		return temporaryArray;
-	}
-	
-	private boolean isSectorSixOk() {
-		int[] temporaryArray = createTempArraySix();	
-		for (int i = 0; i<temporaryArray.length; i++) {			
-			for (int j = i+1; j<temporaryArray.length; j++) {
-				if (temporaryArray[i] == temporaryArray[j] && (temporaryArray[i] != 0 || temporaryArray[j] != 0)) {
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-	
-	private int[] createTempArraySix() {
-		int[] temporaryArray = new int [9];
-		int cont = 0;
-		for (int i = 6; i<9; i++) {
-			for (int j = 3; j<6; j++) {
-				temporaryArray[cont++] = sudokuUsuario[i][j];
-			}
-		}
-		return temporaryArray;
-	}
-	
-	private boolean isSectorSevenOk() {
-		int[] temporaryArray = createTempArraySeven();	
-		for (int i = 0; i<temporaryArray.length; i++) {			
-			for (int j = i+1; j<temporaryArray.length; j++) {
-				if (temporaryArray[i] == temporaryArray[j] && (temporaryArray[i] != 0 || temporaryArray[j] != 0)) {
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-	
-	private int[] createTempArraySeven() {
-		int[] temporaryArray = new int [9];
-		int cont = 0;
-		for (int i = 0; i<3; i++) {
-			for (int j = 6; j<9; j++) {
-				temporaryArray[cont++] = sudokuUsuario[i][j];
-			}
-		}
-		return temporaryArray;
-	}
-	
-	private boolean isSectorEightOk() {
-		int[] temporaryArray = createTempArrayEight();	
-		for (int i = 0; i<temporaryArray.length; i++) {			
-			for (int j = i+1; j<temporaryArray.length; j++) {
-				if (temporaryArray[i] == temporaryArray[j] && (temporaryArray[i] != 0 || temporaryArray[j] != 0)) {
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-	
-	private int[] createTempArrayEight() {
-		int[] temporaryArray = new int [9];
-		int cont = 0;
-		for (int i = 3; i<6; i++) {
-			for (int j = 6; j<9; j++) {
-				temporaryArray[cont++] = sudokuUsuario[i][j];
-			}
-		}
-		return temporaryArray;
-	}
-	
-	private boolean isSectorNineOk() {
-		int[] temporaryArray = createTempArrayNine();	
-		for (int i = 0; i<temporaryArray.length; i++) {			
-			for (int j = i+1; j<temporaryArray.length; j++) {
-				if (temporaryArray[i] == temporaryArray[j] && (temporaryArray[i] != 0 || temporaryArray[j] != 0)) {
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-	
-	private int[] createTempArrayNine() {
-		int[] temporaryArray = new int [9];
-		int cont = 0;
-		for (int i = 6; i<9; i++) {
-			for (int j = 6; j<9; j++) {
-				temporaryArray[cont++] = sudokuUsuario[i][j];
-			}
-		}
-		return temporaryArray;
-	}
 	
 }
